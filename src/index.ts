@@ -47,3 +47,45 @@ const motorcycle = new MotorCycle("Honda", "CBR500R", 2021, "started", 500);
 
 printStatus(car); // Output: The Toyota Corolla is currently stopped.
 printStatus(motorcycle); // Output: The Honda CBR500R is currently started.
+
+
+class NCycle<T> {
+  make: T | T[];
+  model: T | T[];
+
+  constructor(make: T | T[], model: T | T[]) {
+      this.make = make;
+      this.model = model;
+  }
+
+  print(parameter?: number): void {
+      if (!Array.isArray(this.make) && !Array.isArray(this.model)) {
+          console.log(`This is a ${this.make} ${this.model} NCycle.`);
+      } else if (Array.isArray(this.make) && Array.isArray(this.model) && parameter !== undefined &&
+          parameter >= 0 && parameter < this.make.length && parameter < this.model.length) {
+          console.log(`This NCycle has a ${this.make[parameter]} ${this.model[parameter]} at ${parameter}.`);
+      } else {
+          console.log("This NCycle was not created properly.");
+      }
+  }
+
+  printAll(): void {
+      if (Array.isArray(this.make) && Array.isArray(this.model)) {
+          for (let i = 0; i < Math.min(this.make.length, this.model.length); i++) {
+              console.log(`This NCycle has a ${this.make[i]} ${this.model[i]} at ${i}.`);
+          }
+      } else {
+          console.log("This NCycle was not created properly.");
+      }
+  }
+}
+
+// Testing
+const singleCycle = new NCycle<string>("Mountain", "Bike");
+singleCycle.print(); // Output: This is a Mountain Bike NCycle.
+
+const multipleCycles = new NCycle<string[]>(["Mountain", "Road", "BMX"], ["Bike", "Bike", "Bike"]);
+multipleCycles.print(); // Output: This NCycle was not created properly.
+multipleCycles.print(1); // Output: This NCycle has a Road Bike at 1.
+
+multipleCycles.printAll();
